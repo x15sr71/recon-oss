@@ -5,3 +5,4 @@ data/
 summary.txt
 .env
 dist/
+dump.txt

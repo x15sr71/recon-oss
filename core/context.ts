@@ -1,7 +1,7 @@
-import { getRecentMergedPRs, getIssuesByNumbers, getTrendingOpenIssues } from "../memory/db";
-import { loadMotive, formatMotiveForPrompt } from "../memory/motive";
-import { loadChatHistory, formatChatForPrompt } from "../memory/chat";
-import { CONFIG } from "../config";
+import { getRecentMergedPRs, getIssuesByNumbers, getTrendingOpenIssues } from "../memory/db.js";
+import { loadMotive, formatMotiveForPrompt } from "../memory/motive.js";
+import { loadChatHistory, formatChatForPrompt } from "../memory/chat.js";
+import { CONFIG } from "../config.js";
 
 export async function buildPrompt(deltaResult: any) {
   const since = new Date(Date.now() - CONFIG.limits.lookbackHours * 3600_000).toISOString();

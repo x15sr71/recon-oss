@@ -1,9 +1,12 @@
 import { Octokit } from "@octokit/rest";
-import { CONFIG } from "../config";
+import { CONFIG } from "../config.js";
 import {
-  upsertIssue, upsertPR,
-  getSyncState, setSyncState, saveDb,
-} from "../memory/db";
+  upsertIssue,
+  upsertPR,
+  getSyncState,
+  setSyncState,
+  saveDb,
+} from "../memory/db.js";
 
 const octokit = new Octokit({ auth: CONFIG.github.token });
 const { owner, name: repo } = CONFIG.repo;
