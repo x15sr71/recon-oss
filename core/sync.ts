@@ -1,9 +1,9 @@
 import { Octokit } from "@octokit/rest";
-import { CONFIG } from "../config.mjs";
+import { CONFIG } from "../config";
 import {
   upsertIssue, upsertPR,
   getSyncState, setSyncState, saveDb,
-} from "../memory/db.mjs";
+} from "../memory/db";
 
 const octokit = new Octokit({ auth: CONFIG.github.token });
 const { owner, name: repo } = CONFIG.repo;
@@ -66,7 +66,7 @@ export async function bootstrap() {
         number: issue.number,
         title: issue.title,
         state: issue.state,
-        labels: issue.labels.map(l => l.name),
+        labels: issue.labels.map((l: any) => l.name),
         body_snippet: (issue.body ?? "").slice(0, 500),
         comment_count: issue.comments,
         reactions: issue.reactions?.total_count ?? 0,
@@ -98,7 +98,7 @@ export async function bootstrap() {
       await upsertPR({
         number: pr.number,
         title: pr.title,
-        labels: pr.labels.map(l => l.name),
+        labels: pr.labels.map((l: any) => l.name),
         author: pr.user?.login ?? "",
         merged_at: pr.merged_at,
         body_snippet: (pr.body ?? "").slice(0, 400),
@@ -136,7 +136,7 @@ export async function syncDelta() {
       number: issue.number,
       title: issue.title,
       state: issue.state,
-      labels: issue.labels.map(l => l.name),
+      labels: issue.labels.map((l: any) => l.name),
       body_snippet: (issue.body ?? "").slice(0, 500),
       comment_count: issue.comments,
       reactions: issue.reactions?.total_count ?? 0,
@@ -166,7 +166,7 @@ export async function syncDelta() {
     await upsertPR({
       number: pr.number,
       title: pr.title,
-      labels: pr.labels.map(l => l.name),
+      labels: pr.labels.map((l: any) => l.name),
       author: pr.user?.login ?? "",
       merged_at: pr.merged_at,
       body_snippet: (pr.body ?? "").slice(0, 400),

@@ -1,11 +1,11 @@
 import initSqlJs from "sql.js";
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "../config.mjs";
+import { CONFIG } from "../config";
 
 const DB_PATH = path.join(CONFIG.dataDir, "repo.db");
 
-let db = null;
+let db: any = null;
 
 export async function getDb() {
   if (db) return db;

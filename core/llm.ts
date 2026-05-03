@@ -1,4 +1,4 @@
-import { CONFIG } from "../config.mjs";
+import { CONFIG } from "../config";
 
 export async function callLLM(prompt) {
   if (CONFIG.llm.provider === "anthropic") {
