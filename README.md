@@ -1,5 +1,7 @@
 # recon-oss
 
+[![npm version](https://img.shields.io/npm/v/recon-oss)](https://www.npmjs.com/package/recon-oss)
+
 Reconnaissance for open source contributors.
 
 Monitors a GitHub repo's merged PRs and open issues, uses a local LLM to generate a daily digest, and personalizes it based on what you're trying to contribute — and remembers your feedback over time.
@@ -37,7 +39,7 @@ It also remembers your feedback. If you reply "focus on issue #442 from now on",
 
 The pipeline runs in five stages:
 
-```
+```text
 GitHub API (delta only after first run)
         ↓
    SQLite sync (repo.db)
@@ -64,7 +66,7 @@ Three memory layers:
 
 ## File structure
 
-```
+```text
 recon-oss/
 ├── run.ts               # pipeline entry point — exported as runPipeline()
 ├── cli.ts               # interactive CLI entry point (recon-oss binary)
@@ -95,16 +97,21 @@ recon-oss/
 
 Requirements: Node.js 18+, Ollama running locally with a model pulled.
 
+### Via npm (recommended)
+
+```bash
+npm install -g recon-oss
+recon-oss
+# → select "Initialize recon-oss"
+```
+
+### From source
+
 ```bash
 git clone https://github.com/x15sr71/recon-oss
 cd recon-oss
 npm install
 npm run build
-```
-
-Then run the interactive setup wizard:
-
-```bash
 node dist/cli.js
 # → select "Initialize recon-oss"
 ```
@@ -118,7 +125,7 @@ The wizard will walk you through:
 Once set up, run the digest:
 
 ```bash
-node dist/cli.js
+recon-oss
 # → select "Run digest now"
 ```
 
@@ -129,7 +136,7 @@ First run bootstraps the database (takes a minute). Every run after that is fast
 ## What's coming
 
 - [x] `recon-oss init` — interactive CLI setup wizard, no manual config editing
-- [ ] `npm install -g recon-oss` — proper global install
+- [x] `npm install -g recon-oss` — proper global install
 - [ ] Cron setup built into the CLI
 - [x] Anthropic / Claude as LLM option (set `LLM_PROVIDER=anthropic`)
 - [ ] Better prompt tuning — current model sometimes ignores user directives
