@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "../config";
+import { CONFIG } from "../config.js";
 
 const CHAT_PATH = path.join(CONFIG.dataDir, "chat.json");
 

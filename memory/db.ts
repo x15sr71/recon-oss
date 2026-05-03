@@ -1,7 +1,7 @@
 import initSqlJs from "sql.js";
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "../config";
+import { CONFIG } from "../config.js";
 
 const DB_PATH = path.join(CONFIG.dataDir, "repo.db");
 
