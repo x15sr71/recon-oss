@@ -6,8 +6,6 @@ Monitors a GitHub repo's merged PRs and open issues, uses a local LLM to generat
 
 Built because manually reading 10-20 merged PRs a day to figure out what to work on next is exhausting.
 
-> **Work in progress.** Currently a working script. CLI with proper setup wizard coming soon.
-
 ***
 
 ## The idea
@@ -68,7 +66,8 @@ Three memory layers:
 
 ```
 recon-oss/
-├── run.ts               # entry point — runs the full pipeline
+├── run.ts               # pipeline entry point — exported as runPipeline()
+├── cli.ts               # interactive CLI entry point (recon-oss binary)
 ├── config.ts            # all settings live here (repo, LLM, limits)
 ├── tsconfig.json        # TypeScript compiler config
 ├── core/
@@ -92,7 +91,7 @@ recon-oss/
 
 ***
 
-## Running it (current, manual setup)
+## Running it
 
 Requirements: Node.js 18+, Ollama running locally with a model pulled.
 
@@ -100,18 +99,27 @@ Requirements: Node.js 18+, Ollama running locally with a model pulled.
 git clone https://github.com/x15sr71/recon-oss
 cd recon-oss
 npm install
+npm run build
 ```
 
-Edit `config.ts` and fill in:
-- `github.token` — personal access token with `public_repo` scope
-- `repo.owner` and `repo.name` — the repo you want to monitor
-- `llm.model` — whichever Ollama model you have (tested with `qwen3:14b`)
-- `motive` — your actual contribution goals
+Then run the interactive setup wizard:
 
 ```bash
-ollama serve   # if not already running
-npm run build
-npm start
+node dist/cli.js
+# → select "Initialize recon-oss"
+```
+
+The wizard will walk you through:
+- GitHub repo to monitor and your PAT (`public_repo` scope)
+- LLM provider — Ollama (local) or Anthropic (Claude)
+- Delivery channel — terminal or Telegram
+- Your contribution goals, focus subsystems, and what to avoid
+
+Once set up, run the digest:
+
+```bash
+node dist/cli.js
+# → select "Run digest now"
 ```
 
 First run bootstraps the database (takes a minute). Every run after that is fast — only syncs what changed.
@@ -120,7 +128,7 @@ First run bootstraps the database (takes a minute). Every run after that is fast
 
 ## What's coming
 
-- [ ] `recon-oss init` — interactive CLI setup wizard, no manual config editing
+- [x] `recon-oss init` — interactive CLI setup wizard, no manual config editing
 - [ ] `npm install -g recon-oss` — proper global install
 - [ ] Cron setup built into the CLI
 - [x] Anthropic / Claude as LLM option (set `LLM_PROVIDER=anthropic`)
