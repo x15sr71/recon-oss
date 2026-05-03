@@ -104,7 +104,7 @@ brew tap x15sr71/recon-oss https://github.com/x15sr71/recon-oss-homebrew
 brew install recon-oss
 ```
 
-### Via npm (recommended)
+### Via npm 
 
 ```bash
 npm install -g recon-oss
