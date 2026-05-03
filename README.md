@@ -8,7 +8,7 @@ Built because manually reading 10-20 merged PRs a day to figure out what to work
 
 > **Work in progress.** Currently a working script. CLI with proper setup wizard coming soon.
 
----
+***
 
 ## The idea
 
@@ -21,7 +21,7 @@ recon-oss solves this by running a daily pipeline that fetches what merged, corr
 
 It also remembers your feedback. If you reply "focus on issue #442 from now on", the next digest reflects that.
 
----
+***
 
 ## What's working right now
 
@@ -33,7 +33,7 @@ It also remembers your feedback. If you reply "focus on issue #442 from now on",
 - Accepts feedback after each run — stored in `data/chat.json` and injected into the next prompt
 - Telegram delivery is wired up but optional
 
----
+***
 
 ## Architecture
 
@@ -62,26 +62,27 @@ Three memory layers:
 | Repo state | `data/repo.db` | All issues and merged PRs, incrementally updated |
 | Chat history | `data/chat.json` | Past digests and your replies — feeds into next run's prompt |
 
----
+***
 
 ## File structure
 
 ```
 recon-oss/
-├── run.mjs              # entry point — runs the full pipeline
-├── config.mjs           # all settings live here (repo, LLM, limits)
+├── run.ts               # entry point — runs the full pipeline
+├── config.ts            # all settings live here (repo, LLM, limits)
+├── tsconfig.json        # TypeScript compiler config
 ├── core/
-│   ├── sync.mjs         # GitHub API fetcher — bootstrap + delta sync
-│   ├── context.mjs      # builds the LLM prompt from all three memories
-│   └── llm.mjs          # Ollama API call
+│   ├── sync.ts          # GitHub API fetcher — bootstrap + delta sync
+│   ├── context.ts       # builds the LLM prompt from all three memories
+│   └── llm.ts           # Ollama / Anthropic API call
 ├── memory/
-│   ├── db.mjs           # SQLite read/write for issues and PRs
-│   ├── chat.mjs         # chat history read/write
-│   └── motive.mjs       # loads and formats user motive
+│   ├── db.ts            # SQLite read/write for issues and PRs
+│   ├── chat.ts          # chat history read/write
+│   └── motive.ts        # loads and formats user motive
 ├── delivery/
-│   ├── index.mjs        # routes to the right delivery channel
-│   ├── cli.mjs          # terminal output + feedback prompt
-│   └── telegram.mjs     # Telegram bot send + reply capture
+│   ├── index.ts         # routes to the right delivery channel
+│   ├── cli.ts           # terminal output + feedback prompt
+│   └── telegram.ts      # Telegram bot send + reply capture
 └── data/                # gitignored — local state lives here
     ├── repo.db
     ├── motive.json
@@ -89,7 +90,7 @@ recon-oss/
     └── summary.txt
 ```
 
----
+***
 
 ## Running it (current, manual setup)
 
@@ -101,7 +102,7 @@ cd recon-oss
 npm install
 ```
 
-Edit `config.mjs` and fill in:
+Edit `config.ts` and fill in:
 - `github.token` — personal access token with `public_repo` scope
 - `repo.owner` and `repo.name` — the repo you want to monitor
 - `llm.model` — whichever Ollama model you have (tested with `qwen3:14b`)
@@ -109,23 +110,24 @@ Edit `config.mjs` and fill in:
 
 ```bash
 ollama serve   # if not already running
-node run.mjs
+npm run build
+npm start
 ```
 
 First run bootstraps the database (takes a minute). Every run after that is fast — only syncs what changed.
 
----
+***
 
 ## What's coming
 
 - [ ] `recon-oss init` — interactive CLI setup wizard, no manual config editing
 - [ ] `npm install -g recon-oss` — proper global install
 - [ ] Cron setup built into the CLI
-- [ ] OpenAI / Anthropic / Gemini as LLM options alongside Ollama
+- [x] Anthropic / Claude as LLM option (set `LLM_PROVIDER=anthropic`)
 - [ ] Better prompt tuning — current model sometimes ignores user directives
 - [ ] Homebrew tap
 
----
+***
 
 ## Contributing
 
@@ -133,15 +135,13 @@ Open to contributions, especially on:
 
 - Prompt improvements — making the LLM follow user feedback more strictly
 - Additional delivery channels (Discord, Slack, email)
-- LLM provider adapters (the interface is already modular in `core/llm.mjs`)
+- LLM provider adapters (the interface is already modular in `core/llm.ts`)
 - Testing with repos other than Infisical
 
 If you're using it to track a different repo and hit issues, open an issue with the repo name and what broke.
 
----
+***
 
 ## Why local LLM by default
 
 No API keys needed, no per-run cost, runs offline. The architecture supports cloud LLMs and that's coming — but Ollama first means anyone can run it immediately without a credit card.
-
-
