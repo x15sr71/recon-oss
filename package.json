@@ -5,7 +5,7 @@
   "main": "dist/run.js",
   "type": "module",
   "bin": {
-    "recon-oss": "./dist/cli.js"
+    "recon-oss": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
@@ -21,5 +21,9 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "typescript": "^5.5.0"
-  }
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ]
 }
