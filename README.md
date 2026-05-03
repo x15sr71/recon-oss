@@ -144,6 +144,4 @@ If you're using it to track a different repo and hit issues, open an issue with 
 
 No API keys needed, no per-run cost, runs offline. The architecture supports cloud LLMs and that's coming — but Ollama first means anyone can run it immediately without a credit card.
 
----
 
-MIT License
