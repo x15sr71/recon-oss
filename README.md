@@ -97,6 +97,13 @@ recon-oss/
 
 Requirements: Node.js 18+, Ollama running locally with a model pulled.
 
+### Via Homebrew
+
+```bash
+brew tap x15sr71/recon-oss https://github.com/x15sr71/recon-oss-homebrew
+brew install recon-oss
+```
+
 ### Via npm (recommended)
 
 ```bash
