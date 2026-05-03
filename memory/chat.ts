@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "../config.mjs";
+import { CONFIG } from "../config";
 
 const CHAT_PATH = path.join(CONFIG.dataDir, "chat.json");
 
@@ -71,7 +71,6 @@ export function formatChatForPrompt(history) {
 
   const relevant = history.exchanges;
 
-  // Collect ALL meaningful user replies as cumulative directives
   const directives = relevant
     .filter(ex => ex.user_reply && ex.user_reply.trim().length > 2)
     .map((ex, i) => `- [Run ${ex.run_id?.slice(0, 10) ?? i}] "${ex.user_reply}"`);
@@ -97,7 +96,6 @@ export function getHardcodedUserReply() {
   return "Good summary. I'm particularly interested in the identity-oci-auth and identity-azure-auth services. Please focus on those in future summaries if they appear.";
 }
 
-// Read-only — returns the last saved reply without prompting anything
 export function getLastSavedReply() {
   const history = loadRaw();
   if (!history.exchanges?.length) return null;

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "../config.mjs";
+import { CONFIG } from "../config";
 
 const MOTIVE_PATH = path.join(CONFIG.dataDir, "motive.json");
 

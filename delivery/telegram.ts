@@ -1,4 +1,4 @@
-import { CONFIG } from "../config.mjs";
+import { CONFIG } from "../config";
 import fs from "fs";
 import path from "path";
 
@@ -24,15 +24,13 @@ export async function send(text) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: CONFIG.telegram.chatId,
-      text: text.slice(0, 4096), // Telegram hard limit
+      text: text.slice(0, 4096),
       parse_mode: "Markdown",
     }),
   });
   if (!res.ok) throw new Error(`Telegram send failed: ${await res.text()}`);
 }
 
-// Polls for any replies since last run — called at START of next pipeline run
-// Returns the latest reply text, or null if none
 export async function captureReply() {
   const state = loadState();
   const res = await fetch(
@@ -47,7 +45,7 @@ export async function captureReply() {
     const text = update.message?.text;
     const fromId = String(update.message?.chat?.id);
     if (text && fromId === String(CONFIG.telegram.chatId)) {
-      latestReply = text; // keep the last one if multiple
+      latestReply = text;
     }
     state.lastUpdateId = update.update_id;
   }

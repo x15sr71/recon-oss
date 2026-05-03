@@ -1,12 +1,12 @@
-import { bootstrap, syncDelta } from "./core/sync.mjs";
-import { buildPrompt } from "./core/context.mjs";
-import { callLLM } from "./core/llm.mjs";
-import { getDbStats } from "./memory/db.mjs";
-import { appendExchange, loadChatHistory, appendReplyToLastExchange, getLastSavedReply } from "./memory/chat.mjs";
-import { sendSummary, captureReply } from "./delivery/index.mjs";
+import { bootstrap, syncDelta } from "./core/sync";
+import { buildPrompt } from "./core/context";
+import { callLLM } from "./core/llm";
+import { getDbStats } from "./memory/db";
+import { appendExchange, loadChatHistory, appendReplyToLastExchange, getLastSavedReply } from "./memory/chat";
+import { sendSummary, captureReply } from "./delivery/index";
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "./config.mjs";
+import { CONFIG } from "./config";
 
 async function main() {
   console.log("\n🔍 repo-digest — modular v2");
