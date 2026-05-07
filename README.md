@@ -147,7 +147,7 @@ First run bootstraps the database (takes a minute). Every run after that is fast
 - [ ] Cron setup built into the CLI
 - [x] Anthropic / Claude as LLM option (set `LLM_PROVIDER=anthropic`)
 - [ ] Better prompt tuning — current model sometimes ignores user directives
-- [ ] Homebrew tap
+- [X] Homebrew tap
 
 ***
 
