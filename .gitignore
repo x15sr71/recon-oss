@@ -1,7 +1,24 @@
+# Dependencies
 node_modules/
-data/
-*.db
-*.db.tmp
-summary.txt
-.env
+
+# Build output
 dist/
+
+# Environment variables
+.env
+
+# Data directory — scoped rules (see data/.gitignore for details)
+# ---------------------------------------------------------------
+# repo.db, summary.txt, telegram_state.json are always ignored (local-only)
+# chat.json and motive.json are intentionally NOT ignored here —
+# they must be committed for GitHub Actions to persist memory between runs.
+#
+# If you're using recon-oss by CLONING this repo locally (not via npm install),
+# and you don't want git to track your personal data, add these two lines:
+#   data/chat.json
+#   data/motive.json
+data/*.db
+data/*.db-tmp
+data/summary.txt
+data/telegram_state.json
+dump.txt
