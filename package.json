@@ -1,24 +1,31 @@
 {
   "name": "recon-oss",
   "version": "1.0.0",
-  "description": "",
+  "description": "Repo intelligence digest for open-source contributors",
   "main": "dist/run.js",
+  "type": "module",
+  "bin": {
+    "recon-oss": "dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
+  "keywords": ["cli", "opensource", "github", "llm", "ollama", "contributor", "digest"],
+  "engines": { "node": ">=18.0.0" },
   "dependencies": {
-    "@octokit/rest": "^22.0.1",
-    "dotenv": "^17.4.2",
-    "sql.js": "^1.14.1"
+    "@clack/prompts": "^0.7.0",
+    "@octokit/rest": "^20.1.0",
+    "dotenv": "^16.4.5",
+    "sql.js": "^1.12.0"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "typescript": "^5.8.0"
-  }
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ]
 }

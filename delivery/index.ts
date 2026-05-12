@@ -1,6 +1,6 @@
-import { CONFIG } from "../config";
-import * as telegram from "./telegram";
-import * as cli from "./cli";
+import { CONFIG } from "../config.js";
+import * as telegram from "./telegram.js";
+import * as cli from "./cli.js";
 
 function getChannel() {
   const channel = CONFIG.delivery ?? "cli";
