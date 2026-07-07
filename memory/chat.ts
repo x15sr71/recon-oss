@@ -71,8 +71,12 @@ export function formatChatForPrompt(history) {
 
   const relevant = history.exchanges;
 
+  // Only the most recent reply is an active directive. Older replies are
+  // superseded — otherwise every past reply (up to the 25-run window) would
+  // stay a simultaneous "mandatory, override-everything" instruction (A3).
   const directives = relevant
     .filter(ex => ex.user_reply && ex.user_reply.trim().length > 2)
+    .slice(-1)
     .map((ex, i) => `- [Run ${ex.run_id?.slice(0, 10) ?? i}] "${ex.user_reply}"`);
 
   const contextLines = relevant.map((ex, i) => {
