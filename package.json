@@ -1,6 +1,6 @@
 {
   "name": "recon-oss",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Repo intelligence digest for open-source contributors",
   "main": "dist/run.js",
   "type": "module",
@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/run.js",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["cli", "opensource", "github", "llm", "ollama", "contributor", "digest"],
