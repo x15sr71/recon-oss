@@ -84,10 +84,10 @@ recon-oss/
 │   ├── index.ts         # routes to the right delivery channel
 │   ├── cli.ts           # terminal output + feedback prompt
 │   └── telegram.ts      # Telegram bot send + reply capture
-└── data/                # local state — db and summary gitignored, chat/motive tracked for GH Actions
+└── data/                # local state — all gitignored (local-only, never committed)
     ├── repo.db          # gitignored
-    ├── motive.json      # tracked (GH Actions persistence)
-    ├── chat.json        # tracked (GH Actions persistence)
+    ├── motive.json      # gitignored (your goals stay local)
+    ├── chat.json        # gitignored (your feedback history stays local)
     └── summary.txt      # gitignored
 ```
 
@@ -153,13 +153,9 @@ First run bootstraps the database (takes a minute). Every run after that is fast
 
 ## Contributing
 
-> **Note for contributors:** `data/chat.json` and `data/motive.json` are intentionally
-> tracked in this repo for GitHub Actions persistence. If you clone and use recon-oss
-> locally, these files will contain your personal goals and conversation history.
-> Run this once after cloning to prevent accidental commits:
-> ```bash
-> git update-index --skip-worktree data/chat.json data/motive.json
-> ```
+> **Note for contributors:** everything under `data/` — `chat.json`, `motive.json`,
+> `repo.db`, `summary.txt` — is gitignored and stays local. Your personal goals and
+> conversation history are never committed, so there's nothing to configure after cloning.
 
 Open to contributions, especially on:
 
