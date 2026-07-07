@@ -1,12 +1,12 @@
 # recon-oss
 
+[![npm version](https://img.shields.io/npm/v/recon-oss)](https://www.npmjs.com/package/recon-oss)
+
 Reconnaissance for open source contributors.
 
 Monitors a GitHub repo's merged PRs and open issues, uses a local LLM to generate a daily digest, and personalizes it based on what you're trying to contribute — and remembers your feedback over time.
 
 Built because manually reading 10-20 merged PRs a day to figure out what to work on next is exhausting.
-
-> **Work in progress.** Currently a working script. CLI with proper setup wizard coming soon.
 
 ***
 
@@ -39,7 +39,7 @@ It also remembers your feedback. If you reply "focus on issue #442 from now on",
 
 The pipeline runs in five stages:
 
-```
+```text
 GitHub API (delta only after first run)
         ↓
    SQLite sync (repo.db)
@@ -66,9 +66,10 @@ Three memory layers:
 
 ## File structure
 
-```
+```text
 recon-oss/
-├── run.ts               # entry point — runs the full pipeline
+├── run.ts               # pipeline entry point — exported as runPipeline()
+├── cli.ts               # interactive CLI entry point (recon-oss binary)
 ├── config.ts            # all settings live here (repo, LLM, limits)
 ├── tsconfig.json        # TypeScript compiler config
 ├── core/
@@ -83,35 +84,56 @@ recon-oss/
 │   ├── index.ts         # routes to the right delivery channel
 │   ├── cli.ts           # terminal output + feedback prompt
 │   └── telegram.ts      # Telegram bot send + reply capture
-└── data/                # gitignored — local state lives here
-    ├── repo.db
-    ├── motive.json
-    ├── chat.json
-    └── summary.txt
+└── data/                # local state — db and summary gitignored, chat/motive tracked for GH Actions
+    ├── repo.db          # gitignored
+    ├── motive.json      # tracked (GH Actions persistence)
+    ├── chat.json        # tracked (GH Actions persistence)
+    └── summary.txt      # gitignored
 ```
 
 ***
 
-## Running it (current, manual setup)
+## Running it
 
 Requirements: Node.js 18+, Ollama running locally with a model pulled.
+
+### Via Homebrew
+
+```bash
+brew tap x15sr71/recon-oss https://github.com/x15sr71/recon-oss-homebrew
+brew install recon-oss
+```
+
+### Via npm
+
+```bash
+npm install -g recon-oss
+recon-oss
+# → select "Initialize recon-oss"
+```
+
+### From source
 
 ```bash
 git clone https://github.com/x15sr71/recon-oss
 cd recon-oss
 npm install
+npm run build
+node dist/cli.js
+# → select "Initialize recon-oss"
 ```
 
-Edit `config.ts` and fill in:
-- `github.token` — personal access token with `public_repo` scope
-- `repo.owner` and `repo.name` — the repo you want to monitor
-- `llm.model` — whichever Ollama model you have (tested with `qwen3:14b`)
-- `motive` — your actual contribution goals
+The wizard will walk you through:
+- GitHub repo to monitor and your PAT (`public_repo` scope)
+- LLM provider — Ollama (local) or Anthropic (Claude)
+- Delivery channel — terminal or Telegram
+- Your contribution goals, focus subsystems, and what to avoid
+
+Once set up, run the digest:
 
 ```bash
-ollama serve   # if not already running
-npm run build
-npm start
+recon-oss
+# → select "Run digest now"
 ```
 
 First run bootstraps the database (takes a minute). Every run after that is fast — only syncs what changed.
@@ -120,16 +142,24 @@ First run bootstraps the database (takes a minute). Every run after that is fast
 
 ## What's coming
 
-- [ ] `recon-oss init` — interactive CLI setup wizard, no manual config editing
-- [ ] `npm install -g recon-oss` — proper global install
+- [x] `recon-oss init` — interactive CLI setup wizard, no manual config editing
+- [x] `npm install -g recon-oss` — proper global install
 - [ ] Cron setup built into the CLI
 - [x] Anthropic / Claude as LLM option (set `LLM_PROVIDER=anthropic`)
 - [ ] Better prompt tuning — current model sometimes ignores user directives
-- [ ] Homebrew tap
+- [x] Homebrew tap
 
 ***
 
 ## Contributing
+
+> **Note for contributors:** `data/chat.json` and `data/motive.json` are intentionally
+> tracked in this repo for GitHub Actions persistence. If you clone and use recon-oss
+> locally, these files will contain your personal goals and conversation history.
+> Run this once after cloning to prevent accidental commits:
+> ```bash
+> git update-index --skip-worktree data/chat.json data/motive.json
+> ```
 
 Open to contributions, especially on:
 

@@ -5,4 +5,7 @@ data/
 summary.txt
 .env
 dist/
+.DS_Store
+
+# Secret/context dumps — never commit (may embed .env, tokens, .git internals)
 dump.txt
