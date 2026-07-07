@@ -50,7 +50,7 @@ async function handleInit() {
 
   const ghToken = await text({
     message: "GitHub token (PAT with public_repo):",
-    initialValue: existingEnv["GITHUBTOKEN"] ?? "",
+    initialValue: existingEnv["GITHUB_TOKEN"] ?? "",
   });
   if (isCancel(ghToken)) return;
 
@@ -60,13 +60,13 @@ async function handleInit() {
       { value: "ollama", label: "Ollama (local)" },
       { value: "anthropic", label: "Anthropic (Claude API)" },
     ],
-    initialValue: existingEnv["LLMPROVIDER"] ?? "ollama",
+    initialValue: existingEnv["LLM_PROVIDER"] ?? "ollama",
   });
   if (isCancel(llmProvider)) return;
 
-  let llmModel = existingEnv["LLMMODEL"] ?? "qwen3:14b";
-  let ollamaUrl = existingEnv["OLLAMAURL"] ?? "http://localhost:11434";
-  let anthropicKey = existingEnv["ANTHROPICAPIKEY"] ?? "";
+  let llmModel = existingEnv["LLM_MODEL"] ?? "qwen3:14b";
+  let ollamaUrl = existingEnv["OLLAMA_URL"] ?? "http://localhost:11434";
+  let anthropicKey = existingEnv["ANTHROPIC_API_KEY"] ?? "";
 
   if (llmProvider === "ollama") {
     llmModel = (await text({
@@ -98,8 +98,8 @@ async function handleInit() {
   });
   if (isCancel(delivery)) return;
 
-  let telegramToken = existingEnv["TELEGRAMTOKEN"] ?? "";
-  let telegramChatId = existingEnv["TELEGRAMCHATID"] ?? "";
+  let telegramToken = existingEnv["TELEGRAM_TOKEN"] ?? "";
+  let telegramChatId = existingEnv["TELEGRAM_CHAT_ID"] ?? "";
 
   if (delivery === "telegram") {
     telegramToken = (await text({
@@ -154,14 +154,14 @@ async function handleInit() {
     ...existingEnv,
     REPO_OWNER: String(repoOwner),
     REPO_NAME: String(repoName),
-    GITHUBTOKEN: String(ghToken),
-    LLMPROVIDER: String(llmProvider),
-    LLMMODEL: String(llmModel),
-    OLLAMAURL: ollamaUrl,
-    ANTHROPICAPIKEY: anthropicKey,
+    GITHUB_TOKEN: String(ghToken),
+    LLM_PROVIDER: String(llmProvider),
+    LLM_MODEL: String(llmModel),
+    OLLAMA_URL: ollamaUrl,
+    ANTHROPIC_API_KEY: anthropicKey,
     DELIVERY: String(delivery),
-    TELEGRAMTOKEN: telegramToken,
-    TELEGRAMCHATID: telegramChatId,
+    TELEGRAM_TOKEN: telegramToken,
+    TELEGRAM_CHAT_ID: telegramChatId,
   };
   saveEnvFile(newEnv);
 
@@ -172,7 +172,7 @@ async function handleInit() {
     subsystems: subsystems.split(",").map((s) => s.trim()).filter(Boolean),
     difficulty,
     avoid: avoid.split(",").map((s) => s.trim()).filter(Boolean),
-    careercontext: careerContext,
+    career_context: careerContext,
   };
   fs.writeFileSync(MOTIVE_PATH, JSON.stringify(motive, null, 2));
 

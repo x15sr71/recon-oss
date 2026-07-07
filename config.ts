@@ -2,7 +2,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export const CONFIG = {
-  repo: { owner: "Infisical", name: "infisical" },
+  repo: {
+    owner: process.env.REPO_OWNER ?? "Infisical",
+    name: process.env.REPO_NAME ?? "infisical",
+  },
   github: {
     token: process.env.GITHUB_TOKEN,
   },
